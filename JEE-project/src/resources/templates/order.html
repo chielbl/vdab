@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{~/css/navigatie.css}">
+    <link rel="stylesheet" th:href="@{~/css/main.css}">
+    <!-- W3shool -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <!-- Jquery -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <title>Order</title>
+</head>
+<body>
+    <div th:replace="~{navigatie::#navbar}"></div>
+    <div id="shoppingCar">
+        <a th:href="@{/order}"><i class="fa fa-cart-arrow-down"></i><span class="badge" th:text="${cart.size()}"></span></a>
+    </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Product</th>
+                    <th scope="col">Prijs</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="order : ${cart}">
+                    <td th:text="${order.naam}"></td>
+                    <td th:text="'€'+${order.prijs}"></td>
+                    <td><a th:href="@{~/delete/{id} (id=${order.id})}"><i class="glyphicon glyphicon-trash" style="color: red"></i></a></td>
+                </tr>
+            </tbody>
+        </table>
+    <form class="container" th:method="post" th:action="@{~/order}" th:object="${klant}">
+        <div class="form-row">
+            <div class="col">
+                <label>Voornaam:</label>
+                <input th:field="*{naam}" type="text" class="form-control" placeholder="voornaam">
+                <p th:if="${#fields.hasErrors('naam')}" th:errors="*{naam}" th:class="errors"></p>
+            </div>
+            <div class="col">
+                <label>Achternaam:</label>
+                <input th:field="*{achternaam}" type="text" class="form-control" placeholder="achternaam">
+                <p th:if="${#fields.hasErrors('achternaam')}" th:errors="*{achternaam}" th:class="errors"></p>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col">
+                <label>Straat:</label>
+                <input th:field="*{straat}" type="text" class="form-control" placeholder="straat">
+                <p th:if="${#fields.hasErrors('straat')}" th:errors="*{straat}" th:class="errors"></p>
+            </div>
+            <div class="col">
+                <label>Huisnummer:</label>
+                <input th:field="*{huisnr}" type="text" class="form-control" placeholder="nr">
+            </div>
+            <div class="col">
+                <label>Gemeente:</label>
+                <input th:field="*{gemeente}" type="text" class="form-control" placeholder="gemeente">
+                <p th:if="${#fields.hasErrors('gemeente')}" th:errors="*{gemeente}" th:class="errors"></p>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col">
+                <label>Email:</label>
+                <input th:field="*{email}" type="text" class="form-control" placeholder="email">
+                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" th:class="errors"></p>
+            </div>
+        </div>
+        <div id="marging-top-10px">
+            <a th:href="@{confirm}"><button type="submit" class="btn btn-primary">Confirm</button></a>
+        </div>
+    </form>
+</body>
+<footer>
+    <div class="text-center">
+        <p>&copy;2018 Chiel Bleyenbergh & Ilham Hbibi Ouali</p>
+    </div>
+</footer>
+</html>
